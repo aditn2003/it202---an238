@@ -1,2 +1,4 @@
 # it202---an238
-test1
+IT 202-101
+Adit
+I am an international student form India, currently a second year CS major at NJIT.
