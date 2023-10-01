@@ -5,8 +5,20 @@ $a3 = [-0.01, -0.0001, -.15];
 $a4 = ["-1", "2", "-3", "4", "-5", "5", "-6", "6", "-7", "7"];
 
 function bePositive($arr) {
+    //UCID - AN238
+    //DATE - 10/01/2023
+    $arrlength = count($arr);
     echo "<br>Processing Array:<br><pre>" . var_export($arr, true) . "</pre>";
-    echo "<br>Positive output:<br>";
+    echo "<br>Positive output: <br>";
+    for ($x = 0; $x < $arrlength; $x++) {
+        if (is_string($arr[$x])){
+        $arr[$x] = abs($arr[$x]);
+        echo strval($arr[$x]), " ";
+        echo var_dump(strval($arr[$x])), "<br>";}
+    
+        else {
+            echo abs($arr[$x]), " ";
+            echo var_dump(abs($arr[$x])), "<br>"; }}
     //TODO use echo to output all of the values as positive (even if they were originally positive) 
     //hint: may want to use var_dump() to show final data types
 }

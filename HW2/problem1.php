@@ -5,12 +5,9 @@ $a3 = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0];
 $a4 = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7, 8, 8, 9, 9, 10, 10];
 function processArray($arr) {
     $final = [];
-
-    
-
+    //UCID - an238
+    //DATE - 10/01/2023
     echo "<br>Odds output:<br>";
-    
-
     foreach ($arr as $item ){
         if($item%2 != 0)
         {echo $item;
@@ -18,10 +15,8 @@ function processArray($arr) {
         echo "<br>";}
         }
         echo "<br>Processing Array:<br><pre>" . var_export($final, true) . "</pre>";
-    
     //note: use the $arr variable to iterate over, don't directly touch $a1-$a4
     //TODO add logic here to echo out only odd values
-
 }
 echo "Problem 1: Odd Output<br>";
 ?>
