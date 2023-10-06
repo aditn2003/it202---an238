@@ -3,11 +3,23 @@
 
 <head>
     <title>Problem 1</title>
-    <meta charset="utf-8" /></head>
+    <meta charset="utf-8" />
     <script>
         window.addEventListener("load", () => {
             console.log("loaded via javascript");
             //TODO: add any extra onload processing you may need here
+        // Add event listeners to each navigation link
+        document.querySelectorAll('nav a').forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault(); // Prevent the default link behavior
+                    updateContent(link.innerText); // Update content with link text
+
+                    // Update the URL
+                    const linkText = link.innerText.toLowerCase();
+                    history.pushState(null, null, `#${linkText}`);
+                });
+            });
+
         });
         function getCurrentSelection() {
             setTimeout(() => {
@@ -17,9 +29,74 @@
                 //Note: likely you'll want to call updateCurrentPage towards the end
             }, 100);
         }
+        // Function to update content
+        function updateContent(linkText) {
+            // Update the content of the <h1> tag
+            document.querySelector('h1').innerText = linkText;
+
+            // Call the external function to update the current page
+            updateCurrentPage(linkText);
+        }
     </script>
     <style>
         /* TODO: make edits here */
+    /* Make the navigation horizontal */
+    nav ul {
+            display: flex;
+            list-style: none;
+            padding: 0;
+        }
+
+        /* Get rid of the navigation list item markers */
+        nav li {
+            list-style: none;
+        }
+
+        /* Give the navigation a background */
+        nav {
+            background-color: #eeeeee; /* Use your desired background color */
+            padding: 10px;
+        }
+
+        /* Make the links (or their surrounding area) change color on mouseover */
+        nav a:hover {
+            color: red; /* Use your desired color */
+        }
+
+        /* Change the "bullet points" of this entire list to checkmarks (✓) */
+        ul {
+            list-style: none;
+        }
+
+        ul li:before {
+            content: '✓';
+            margin-right: 5px; /* Add spacing between checkmark and text */
+        }
+
+        /* Use CSS to uppercase the first character of the content in the <h1> tag and the <a> tags */
+        h1, nav a {
+            text-transform: uppercase;
+        }
+
+        /* Add some styling of your choice */
+        footer {
+            border-top: 3px solid #2c10ffd4;
+            padding: 5px;
+            background-color: #f5f5f5; /* Add your preferred background color */
+            margin-top: 20px; /* Add some spacing at the top */
+        }
+
+        /* Any style applied to unordered list in the <nav> tag should not apply to this list */
+        nav ul ul {
+            list-style: none; /* Ensure nested lists in nav don't inherit styles */
+        }
+
+        /* Any time a navigation link is clicked, have it do the following: */
+        nav a:active {
+            font-weight: bold;
+            color: #ff0000; /* Change to your preferred color */
+        }
+    
     </style>
     <!-- make the necessary edits above this line -->
 
