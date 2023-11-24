@@ -11,7 +11,8 @@ $localWorks = true; //some people have issues with localhost for the cookie para
 
 require_once(__DIR__ . "/../lib/functions.php");
 
-?>
+?> 
+<link rel="stylesheet" href="<?php echo('styles.css'); ?>">
 <nav>
     <ul>
         <?php if (is_logged_in()) : ?>
