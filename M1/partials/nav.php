@@ -11,8 +11,9 @@ $localWorks = true; //some people have issues with localhost for the cookie para
 
 require_once(__DIR__ . "/../lib/functions.php");
 
-?>
+?> 
 <nav>
+<link rel="stylesheet" href="style.css">
     <ul>
         <?php if (is_logged_in()) : ?>
             <li><a href="home.php">Home</a></li>
@@ -24,6 +25,7 @@ require_once(__DIR__ . "/../lib/functions.php");
         <?php if (has_role('Admin')) : ?>
             <li><a href="create_role.php">Create Role</a></li>
             <li><a href="list_roles.php">List Roles</a></li>
+            <li><a href="profile.php">Profile</a></li>
         <?php endif; ?>
         <?php if (is_logged_in()) : ?>
             <li><a href="logout.php">Logout</a></li>

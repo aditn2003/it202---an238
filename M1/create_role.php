@@ -9,7 +9,7 @@ if (!has_role("Admin")) {
     //die(header("Location: " . get_url("home.php")));
 }
 
-flash("You don't have permission to view this page", "warning");
+//flash("You don't have permission to view this page", "warning");
 
 if (isset($_POST["name"]) && isset($_POST["description"])) {
     $name = se($_POST, "name", "", false);
