@@ -5,7 +5,7 @@ require(__DIR__ . "/partials/nav.php");
 <?php
 //var_export($_SESSION);
 if (is_logged_in()) {
-    echo "Welcome, " . get_user_email();
+    echo "Login is successful, Welcome " . get_user_email();
 } else {
     echo "You're not logged in";
 }
