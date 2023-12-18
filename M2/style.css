@@ -1,0 +1,60 @@
+/* Define alert styles */
+.alert {
+    border-radius: 5px;
+    padding: 10px;
+    color: #fff;
+    font-weight: bold;
+    border: 2px solid transparent; /* Add transparent border initially */
+}
+
+.alert-success {
+    background-color: #ffdb58; /* Yellow */
+    border-color: #ffcc00; /* Darker border */
+}
+
+.alert-warning {
+    background-color: #ffd700; /* Gold */
+    border-color: #ccaa00; /* Darker border */
+}
+
+.alert-danger {
+    background-color: #ffb400; /* Amber */
+    border-color: #cc8800; /* Darker border */
+}
+
+.alert-info {
+    background-color: #ffea00; /* Yellow-green */
+    border-color: #b3cc33; /* Darker border */
+}
+
+/* Style navigation */
+nav li {
+    display: inline;
+    background-color: #ffd700; /* Gold */
+    padding: 10px;
+    margin-right: 5px;
+    border-radius: 5px;
+    border: 2px solid #ccaa00; /* Darker border */
+}
+
+nav li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+/* Style input */
+input {
+    border-radius: 5px;
+    border: 2px solid #ffdb58; /* Yellow */
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+/* Body styles */
+body {
+    background-color: #fff8dc; /* Cornsilk */
+    color: #8b4513; /* Dark brown text color for better contrast */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
