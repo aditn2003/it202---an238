@@ -59,6 +59,25 @@ if (isset($_GET['action']) && $_GET['action'] === 'clear') {
     }
 }
 
+// Handle updating the quantity of a specific item in the cart
+if (isset($_GET['action']) && $_GET['action'] === 'update' && isset($_GET['product_id'])) {
+    $productId = $_GET['product_id'];
+    $newQuantity = isset($_GET['quantity']) ? max(0, $_GET['quantity']) : 1;
+
+    try {
+        $db = getDB();
+        $query = "UPDATE cart SET quantity = :quantity WHERE product_id = :product_id";
+        $stmt = $db->prepare($query);
+        $stmt->bindParam(":quantity", $newQuantity);
+        $stmt->bindParam(":product_id", $productId);
+        $stmt->execute();
+
+        echo "Quantity updated successfully!";
+    } catch (PDOException $e) {
+        echo "Error updating quantity: " . $e->getMessage();
+    }
+}
+
 // Retrieve cart items from the database
 $cartItems = [];
 try {
@@ -104,7 +123,8 @@ try {
                 <td><?php echo $item['name']; ?></td>
                 <td><?php echo $item['price']; ?></td>
                 <td>
-                    <form method="POST" action="update_quantity.php">
+                    <form method="GET" action="cart.php">
+                        <input type="hidden" name="action" value="update">
                         <input type="hidden" name="product_id" value="<?php echo $item['product_id']; ?>">
                         <input type="number" name="quantity" value="<?php echo $item['quantity']; ?>" min="1">
                         <input type="submit" value="Update">
