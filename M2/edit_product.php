@@ -28,16 +28,17 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["product_id"])) {
     $stock = $_POST["stock"];
     $unitPrice = $_POST["unit_price"];
     $visibility = $_POST["visibility"];
+    $imageURL = $_POST["image_url"] ?? 'default_image_url.jpg'; // Get image URL from the form
 
     try {
         $db = getDB();
-        $stmt = $db->prepare("UPDATE products SET name = :name, description = :description, category = :category, stock = :stock, unit_price = :unit_price, visibility = :visibility WHERE id = :id");
+        $stmt = $db->prepare("UPDATE products SET name = :name, description = :description, category = :category, stock = :stock, unit_price = :unit_price, image_url = :image_url WHERE id = :id");
         $stmt->bindParam(":name", $name);
         $stmt->bindParam(":description", $description);
         $stmt->bindParam(":category", $category);
         $stmt->bindParam(":stock", $stock);
         $stmt->bindParam(":unit_price", $unitPrice);
-        $stmt->bindParam(":visibility", $visibility);
+        $stmt->bindParam(":image_url", $imageURL); // Add image_url to the bindParams
         $stmt->bindParam(":id", $productId);
         $stmt->execute();
 
@@ -48,10 +49,25 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["product_id"])) {
         echo "Error updating product: " . $e->getMessage();
         exit;
     }
+
+    // Separate visibility update logic
+    $isVisible = ($visibility == 1) ? true : false;
+    try {
+        $db = getDB();
+        $stmt = $db->prepare("UPDATE products SET visibility = :visibility WHERE id = :id");
+        $stmt->bindParam(":visibility", $isVisible, PDO::PARAM_BOOL);
+        $stmt->bindParam(":id", $productId);
+        $stmt->execute();
+    } catch (PDOException $e) {
+        echo "Error updating visibility: " . $e->getMessage();
+        exit;
+    }
+
     // After successfully updating the product, reset the update status message
     $updateStatus = "";
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -90,6 +106,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST" && isset($_POST["product_id"])) {
                                 <option value="1" <?php echo ($product['visibility'] == 1) ? 'selected' : ''; ?>>True</option>
                                 <option value="0" <?php echo ($product['visibility'] == 0) ? 'selected' : ''; ?>>False</option>
                             </select><br><br>
+
+                            <label for="image_url<?php echo $product['id']; ?>">Image URL:</label>
+                            <input type="text" name="image_url" id="image_url<?php echo $product['id']; ?>" value="<?php echo $product['image_url']; ?>"><br><br>
 
                             <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
                             <input type="submit" value="Update">

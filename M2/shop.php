@@ -1,3 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+</html>
+
 <?php
 require(__DIR__ . "/partials/nav.php");
 
@@ -15,16 +25,16 @@ try {
     $selectedCategory = isset($_GET['category']) ? $_GET['category'] : null;
 
     // Check if a price sort is applied
-    //ucid: an239
-    //date: 12/17/2023
+    // ucid: an239
+    // date: 12/17/2023
     $selectedSort = isset($_GET['sort']) ? $_GET['sort'] : null;
 
-    // Construct the SQL query based on selected category and sort
-    $sql = "SELECT * FROM products";
+    // Construct the SQL query based on selected category, visibility, and sort
+    $sql = "SELECT * FROM products WHERE visibility = 1"; // Consider only visible products
     $params = array();
 
     if ($selectedCategory) {
-        $sql .= " WHERE category = :category";
+        $sql .= " AND category = :category";
         $params[':category'] = $selectedCategory;
     }
 
@@ -37,12 +47,22 @@ try {
     $stmt = $db->prepare($sql);
     $stmt->execute($params);
     $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
-   
-
-} catch(PDOException $e) {
+} catch (PDOException $e) {
     // Output any connection errors
     echo "Connection failed: " . $e->getMessage();
     // Exit or handle the error appropriately
+    exit;
+}
+
+$cartItems = [];
+try {
+    $db = getDB();
+    $query = "SELECT * FROM cart";
+    $stmt = $db->prepare($query);
+    $stmt->execute();
+    $cartItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    echo "Connection failed: " . $e->getMessage();
     exit;
 }
 ?>
@@ -74,19 +94,35 @@ try {
     <button type="submit">Filter & Sort</button>
 </form>
 
-<?php foreach ($products as $product): ?>
-    <div>
-        <h3><?php echo $product['name']; ?></h3>
-        <p>Category: <?php echo $product['category']; ?></p>
-        <a href="productdetail.php?id=<?php echo $product['id']; ?>">More Info</a>
-        <a href="cart.php?action=add&product_id=<?php echo $product['id']; ?>&name=<?php echo urlencode($product['name']); ?>&price=<?php echo $product['unit_price']; ?>">Add to Cart</a>
-    </div>
-<?php endforeach; ?>
+<div class="product-container">
+    <?php foreach ($products as $product): ?>
+        <div class="product">
+            <h3><?php echo $product['name']; ?></h3>
+            <img src="<?php echo $product['image_url']; ?>" alt="<?php echo $product['name']; ?> Image">
+            <p>Category: <?php echo $product['category']; ?></p>
+            <a href="productdetail.php?id=<?php echo $product['id']; ?>">More Info</a>
+
+            <?php
+            // Check if the product is already in the cart
+            $isInCart = false;
+            foreach ($cartItems as $cartItem) {
+                if ($cartItem['product_id'] == $product['id']) {
+                    $isInCart = true;
+                    break;
+                }
+            }
+
+            // Display "Add to Cart" button conditionally
+            if (!$isInCart) {
+                echo '<a href="cart.php?action=add&product_id=' . $product['id'] . '&name=' . urlencode($product['name']) . '&price=' . $product['unit_price'] . '">Add to Cart</a>';
+            } else {
+                echo '<span>Already in Cart</span>';
+            }
+            ?>
+        </div>
+    <?php endforeach; ?>
+</div>
+
 <?php if (empty($products)): ?>
     <p>No results available</p>
-<?php else: ?>
-    <?php foreach ($products as $product): ?>
-        <!-- Display product details -->
-        <!-- Your existing product display code here -->
-    <?php endforeach; ?>
 <?php endif; ?>
