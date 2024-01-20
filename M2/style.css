@@ -27,9 +27,24 @@
     border-color: #b3cc33; /* Darker border */
 }
 
-/* Style navigation */
-nav li {
-    display: inline;
+
+
+
+nav {
+    text-align: left;
+    padding: 10px;
+    background-color: #fff346;
+}
+
+ul.top-links {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: inline-block; /* Ensure top links are in the same line */
+}
+
+ul.top-links li {
+    display: inline-block;
     background-color: #ffd700; /* Gold */
     padding: 10px;
     margin-right: 5px;
@@ -37,10 +52,22 @@ nav li {
     border: 2px solid #ccaa00; /* Darker border */
 }
 
-nav li a {
+ul.top-links a {
     color: #fff;
     text-decoration: none;
 }
+
+/* Center the search form */
+.search-form {
+    display: inline-block;
+    margin-top: 10px;
+}
+
+/* Optional: Center the button within the form */
+.search-form button {
+    vertical-align: middle;
+}
+
 
 /* Style input */
 input {
@@ -64,17 +91,16 @@ body {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-around;
-    background-color: #ffe4b5; /* Set the background color for the product container */
-    color: #4b0082; /* Set a text color that complements the yellow background */
-    margin: 0 20px; /* Add margin to the left and right of the product container */
+     background-color: #ffe4b5; /* Set the background color for the product container */
+    color: #4b0082; /* Set the text color that complements the background */
 }
 
 .product {
-    width: 20%;
+    width: 19%; /* Adjust the width based on your design */
     box-sizing: border-box;
     border: 1px solid #ccc;
-    padding: 15px;
-    margin: 10px;
+    padding: 10px;
+    margin: 7px;
     text-align: center;
 }
 
