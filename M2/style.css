@@ -57,6 +57,8 @@ ul.top-links a {
     text-decoration: none;
 }
 
+/* ul.admin-links li {float:right} */
+
 /* Center the search form */
 .search-form {
     display: inline-block;
