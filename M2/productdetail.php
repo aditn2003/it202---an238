@@ -37,13 +37,18 @@ try {
     <h1>Product Details</h1>
 
    
-<div>
+<div class="product">
     <h2><?php echo htmlspecialchars($product['name']); ?></h2>
     <p>Category: <?php echo htmlspecialchars($product['category']); ?></p>
     <p>Description: <?php echo htmlspecialchars($product['description']); ?></p>
     <p>Stock: <?php echo htmlspecialchars($product['stock']); ?></p>
     <p>Price: <?php echo htmlspecialchars($product['unit_price']); ?></p>
+    <img src="<?php echo $product['image_url']; ?>"    
+    <?php if (has_role('Admin')) : ?>>
     <p>Visibility: <?php echo ($product['visibility'] == 1) ? 'Visible' : 'Not Visible'; ?></p>
+    <?php endif; ?>
+    
+    
 </div>
 
 </body>
