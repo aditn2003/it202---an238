@@ -1,7 +1,8 @@
 
 <?php
 require_once(__DIR__ . "/partials/nav.php");
-
+require_once 'get_promocode.php';
+require_once 'apply_promocode.php';
 // Check if product is being added to the cart
 if (isset($_GET['action']) && $_GET['action'] === 'add' && isset($_GET['product_id'])) {
     $productId = $_GET['product_id'];
@@ -25,6 +26,16 @@ if (isset($_GET['action']) && $_GET['action'] === 'add' && isset($_GET['product_
         }
     } else {
         echo "Invalid product details.";
+    }
+}
+
+function getCartItems() {
+    // Check if the cart is set in the session
+    if (isset($_SESSION['cart'])) {
+        return $_SESSION['cart'];
+    } else {
+        // If the cart is not set, return an empty array
+        return [];
     }
 }
 
@@ -91,6 +102,12 @@ try {
     echo "Connection failed: " . $e->getMessage();
     exit;
 }
+if (isset($_POST['apply_promo_code'])) {
+    $promoCode = $_POST['promo_code']; // Adjust as needed based on your form input name
+    applyPromoCode($promoCode);
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -141,10 +158,14 @@ try {
         </tbody>
     </table>
 
-    <!-- Add "Remove Cart" and "Clear Cart" buttons -->
     <form method="GET">
         <input type="hidden" name="action" value="clear">
         <input type="submit" value="Clear Cart">
     </form>
+    <form method="POST" action="apply_promocode.php">
+    <label for="promo_code">Promo Code:</label>
+    <input type="text" name="promo_code" id="promo_code" placeholder="Enter promo code">
+    <button type="submit">Apply Promo Code</button>
+</form>
 </body>
 </html>
